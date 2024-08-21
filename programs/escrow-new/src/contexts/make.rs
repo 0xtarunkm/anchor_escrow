@@ -8,8 +8,9 @@ use crate::states::Escrow;
 pub struct Make<'info> {
     #[account(mut)]
     pub maker: Signer<'info>,
+    #[account(mut)]
     pub mint_a: InterfaceAccount<'info, Mint>,
-    pub mint_b: InterfaceAccount<'info, Mint>,
+    // pub mint_b: InterfaceAccount<'info, Mint>,
     #[account(
         mut,
         associated_token::mint = mint_a,
@@ -37,14 +38,16 @@ pub struct Make<'info> {
 }
 
 impl<'info> Make<'info> {
-    pub fn init_escrow(&mut self, seed: u64, receive: u64, bumps: &MakeBumps) -> Result<()> {
+    pub fn init_escrow(&mut self, seed: u64, 
+        // receive: u64, 
+        bumps: &MakeBumps) -> Result<()> {
         
         self.escrow.set_inner(Escrow { 
             seed, 
             maker: self.maker.key(), 
             mint_a: self.mint_a.key(), 
-            mint_b: self.mint_b.key(), 
-            receive, 
+            // mint_b: self.mint_b.key(), 
+            // receive, 
             bump: bumps.escrow 
         });
 
